@@ -1,0 +1,86 @@
+function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length === 0) return ContentService.createTextOutput(JSON.stringify({ status: "success", items: [] })).setMimeType(ContentService.MimeType.JSON);
+  
+  const headers = rows[0];
+  const items = [];
+
+  for (let i = 1; i < rows.length; i++) {
+    const row = rows[i];
+    const item = {};
+    for (let j = 0; j < headers.length; j++) {
+      let val = row[j];
+      if (headers[j] === "color" || headers[j] === "pattern") {
+        try { val = JSON.parse(val); } catch(e) {}
+      }
+      item[headers[j]] = val;
+    }
+    items.push(item);
+  }
+
+  return ContentService.createTextOutput(JSON.stringify({ status: "success", items: items }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    const rows = sheet.getDataRange().getValues();
+    const headers = rows[0];
+    const noColIdx = headers.indexOf("no");
+    const retColIdx = headers.indexOf("returned");
+
+    // 返却済みに更新するアクション
+    if (data.action === "return" && data.no) {
+      for (let i = 1; i < rows.length; i++) {
+        if (Number(rows[i][noColIdx]) === Number(data.no)) {
+          sheet.getRange(i + 1, retColIdx + 1).setValue(true);
+          return ContentService.createTextOutput(JSON.stringify({ status: "success" }))
+            .setMimeType(ContentService.MimeType.JSON);
+        }
+      }
+      return ContentService.createTextOutput(JSON.stringify({ status: "error", message: "Not found" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // 新規登録の場合（ご指定のフォルダIDをここに直接組み込んでいます）
+    const folderId = "1KqWrnatdVbd9G0GDzQCQP0B9x7bcBs_U";
+    const folder = DriveApp.getFolderById(folderId);
+    
+    const base64Data = data.photo.split(",")[1];
+    const blob = Utilities.newBlob(Utilities.base64Decode(base64Data), "image/jpeg", "otoshimono_" + Date.now() + ".jpg");
+    const file = folder.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    const fileId = file.getId();
+    const directUrl = "https://lh3.googleusercontent.com/d/" + fileId;
+
+    const lastRow = sheet.getLastRow();
+    let nextNo = 1;
+    if (lastRow > 1 && noColIdx !== -1) {
+      const allNos = sheet.getRange(2, noColIdx + 1, lastRow - 1, 1).getValues();
+      const maxNo = Math.max(...allNos.map(r => Number(r[0]) || 0));
+      nextNo = maxNo + 1;
+    }
+
+    const rowData = headers.map(h => {
+      if (h === "no") return nextNo;
+      if (h === "photo") return directUrl;
+      if (h === "returned") return "FALSE";
+      if (h === "at") return data.at;
+      if (h === "memo") return data.memo || "";
+      if (h === "color") return JSON.stringify(data.color || []);
+      return data[h] || "";
+    });
+
+    sheet.appendRow(rowData);
+
+    return ContentService.createTextOutput(JSON.stringify({ status: "success", no: nextNo }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
