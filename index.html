@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nanzan Girls | Otoshimono Zukan</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Fredoka:wght@600&display=swap">
+<style>
+:root{--bg:#fffbe3;--bg2:#fff0c9;--card:#fffef8;--tx:#5a4630;--sub:#a58b5e;--ac:#e8920c;--acx:#5a3b10;--bd:#ffe49a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2b2616;--bg2:#231f12;--card:#3a3320;--tx:#fff6d6;--sub:#d9c58a;--ac:#ffd54a;--acx:#3a2c00;--bd:#6b5a22;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#2b2616;--bg2:#231f12;--card:#3a3320;--tx:#fff6d6;--sub:#d9c58a;--ac:#ffd54a;--acx:#3a2c00;--bd:#6b5a22;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:linear-gradient(160deg,var(--bg),var(--bg2)) fixed;color:var(--tx);font-family:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic",sans-serif;font-weight:500;line-height:1.5}
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;position:sticky;top:env(safe-area-inset-top,0px);background:color-mix(in srgb,var(--bg) 80%,transparent);backdrop-filter:blur(8px);z-index:5;border-bottom:2px dashed var(--bd)}
+.logo{line-height:1.1}.logo small{display:block;font-family:Fredoka,sans-serif;font-size:.78rem;letter-spacing:.08em;color:var(--ac)}
+.logo b{display:block;font-size:1.6rem;font-weight:900;color:var(--tx);margin:2px 0}
+.logo span{display:block;font-family:Fredoka,sans-serif;font-size:.72rem;letter-spacing:.06em;color:var(--sub)}
+main{max-width:900px;margin:0 auto;padding:12px 16px 80px}
+button{font:inherit;cursor:pointer}
+.btn-group{display:flex;gap:8px;align-items:center}
+.btn{background:linear-gradient(135deg,#ffe066,#ffb88c);color:#5a3b10;border:0;border-radius:999px;padding:11px 20px;font-weight:700;box-shadow:0 4px 0 #e8b23a88,0 6px 14px #ffc83d55;transition:transform .15s}
+.btn:active{transform:translateY(2px) scale(.97)}
+.btn.ghost{background:transparent;color:var(--ac);box-shadow:none;border:2px solid var(--ac)}
+.btn-sync{display:inline-flex;align-items:center;gap:6px;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:999px;padding:8px 14px;font-weight:700;font-size:.85rem;box-shadow:0 3px 6px #0000000d;transition:all .2s}
+.btn-sync:active{transform:scale(.95)}
+.btn-sync .spin{display:inline-block;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.btn-sync.loading .spin{animation:rotate 1s linear infinite}
+@keyframes rotate{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 12px}
+.chip{border:2px solid var(--bd);background:var(--card);color:var(--tx);border-radius:999px;padding:6px 13px;font-size:.9rem;font-weight:700;transition:transform .15s}
+.chip:active{transform:scale(.93)}
+.chip.on{background:linear-gradient(135deg,#ffe066,#ffb88c);border-color:transparent;color:#5a3b10;box-shadow:0 3px 8px #ffc83d66}
+.lab{font-size:.85rem;color:var(--ac);margin-top:12px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px}
+.card{background:var(--card);border:2px solid var(--bd);border-radius:22px;box-shadow:0 6px 0 var(--bd),0 10px 20px #ffc83d22;overflow:hidden;transition:transform .2s}
+.card:hover{transform:translateY(-3px) rotate(-.6deg)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--bd);border-bottom:2px solid var(--bd)}
+.card .b{padding:10px 12px;font-size:.85rem}
+.no{display:inline-block;font-family:Fredoka,sans-serif;font-size:1.05rem;background:linear-gradient(135deg,#ffe066,#ffb88c);color:#5a3b10;border-radius:999px;padding:1px 12px;margin-bottom:4px;font-weight:800}
+.tag{display:inline-block;border-radius:999px;padding:2px 10px;margin:2px 2px 0 0;font-size:.78rem;font-weight:700;color:var(--tx);background:#ffd54a55}
+.tag:nth-child(4n+2){background:#ff8fb344}.tag:nth-child(4n+3){background:#5ed6b035}.tag:nth-child(4n){background:#7cc4ff40}
+.sub{color:var(--sub);font-size:.8rem}
+textarea{width:100%;min-height:70px;font:inherit;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:12px;padding:8px}
+input[type=file]{border-radius:12px}
+.memo{margin-top:4px;font-size:.82rem;white-space:pre-wrap;word-break:break-word}
+dialog{border:3px solid var(--bd);border-radius:26px;background:var(--card);color:var(--tx);width:min(560px,94vw);max-height:92vh;padding:16px}
+dialog::backdrop{background:#0008}
+dialog h2{color:var(--ac)}
+.warn{background:#ffbe2833;border-left:4px solid #ffb300;padding:8px 10px;border-radius:12px;font-size:.85rem;margin-bottom:8px}
+.note{background:var(--card);border:2px dashed var(--ac);border-radius:18px;padding:12px 14px;font-size:.88rem;margin-bottom:12px}
+#pv{max-width:100%;max-height:220px;border-radius:10px;margin:8px 0;display:none}
+#thx{position:fixed;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;background:#000a;z-index:99;color:#fff;text-align:center}
+#thx span,#thx b{position:relative}
+#thx.show{display:flex}
+#thx b{font-size:clamp(2rem,9vw,3.6rem);animation:pop .4s ease-out}
+#thx span{font-size:4rem}
+@keyframes pop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.empty{text-align:center;color:var(--sub);padding:40px 0}
+#count{font-weight:700;margin-top:4px}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--tx);color:var(--card);padding:10px 20px;border-radius:999px;font-weight:700;font-size:.9rem;box-shadow:0 8px 20px #0004;opacity:0;transition:all .3s cubic-bezier(.175,.885,.32,1.275);z-index:100;pointer-events:none}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+</style></head><body>
+<header>
+  <div class="logo"><small>✧ Nanzan Girls ✧</small><b>🎀 落とし物図鑑</b><span>Otoshimono Zukan</span></div>
+  <div class="btn-group">
+    <button class="btn-sync" id="sync-top" title="最新情報に更新"><span class="spin">🔄</span><span class="lbl">更新</span></button>
+    <button class="btn" id="add">📸 登録する</button>
+  </div>
+</header>
+<main>
+<div class="note">💌 受け取りは<b>職員室</b>へ！「落とし物図鑑のNo.○○の物はありますか？」と番号を伝えてね。</div>
+<div id="filters"></div>
+<div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px">
+  <div class="sub" id="count"></div>
+  <button class="btn-sync" id="sync-mid" style="font-size:.8rem;padding:4px 12px"><span class="spin">🔄</span>手動更新</button>
+</div>
+<div class="grid" id="list" style="margin-top:8px"></div>
+<div class="empty" id="empty" hidden>該当する落とし物はありません</div>
+</main>
+
+<dialog id="dlg"><h2 style="margin-top:0">落とし物を登録</h2>
+<div class="warn">⚠️ 顔・名前・学生証が写らないように撮影してください。</div>
+<div class="lab">① 写真</div><input type="file" id="file" accept="image/*"><img id="pv" alt="">
+<div id="form"></div>
+<div class="lab">⑦ メモ（任意・自由に書けます）</div><textarea id="memo" maxlength="200" placeholder="例：ふたに白いシールあり"></textarea>
+<div style="display:flex;gap:8px;margin-top:14px"><button class="btn" id="save">登録</button><button class="btn ghost" id="cancel">キャンセル</button></div>
+<div class="sub" id="msg" style="margin-top:6px"></div></dialog>
+
+<div id="thx"><canvas id="fw" style="position:absolute;inset:0;width:100%;height:100%"></canvas><span>🎉</span><b>登録ありがとう！</b></div>
+<div class="toast" id="toast">✨ 最新の情報に更新しました</div>
+
+<script>
+const GAS_URL = "https://script.google.com/macros/s/AKfycbw9B1ET_fyvUEvF_dZUKGKnb30QADMfNsnWrHrKIm_D_Wd0XxVoFvH3w1sTRphu6p7V/exec";
+
+const T={
+ type:{t:"② 物の種類",m:false,o:["水筒","筆箱","キーホルダー","ハンカチ・タオル","文房具","上着・体操服","帽子","マフラー","傘","本・ノート","教科書","イヤホン・電子機器","かぎ・カード類","その他"]},
+ color:{t:"③ 色（複数OK）",m:true,o:["赤","青","緑","黄","ピンク","紫","オレンジ","黒","白","グレー","茶","金・銀","その他"]},
+ pattern:{t:"④ 柄",m:false,o:["無地","チェック","水玉","縞模様","キャラクター・ロゴ","その他"]}};
+
+const FILTER_KEYS = ["type", "color", "pattern"];
+
+const $=id=>document.getElementById(id);
+let items=[],filt={},sel={},base64Photo=null;
+FILTER_KEYS.forEach(k=>{filt[k]=new Set();});
+Object.keys(T).forEach(k=>{sel[k]=new Set();});
+
+function showToast(msg="✨ 最新の情報に更新しました"){
+  const t=$("toast");t.textContent=msg;t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+function chips(k,set,multi,onchg){
+  const d=document.createElement("div");d.className="chips";
+  T[k].o.forEach(o=>{
+    const b=document.createElement("button");b.type="button";b.className="chip"+(set.has(o)?" on":"");b.textContent=o;
+    b.onclick=()=>{if(set.has(o))set.delete(o);else{if(!multi)set.clear();set.add(o)}onchg()};d.appendChild(b)
+  });return d;
+}
+
+function drawFilters(){
+  const f=$("filters");f.replaceChildren();
+  FILTER_KEYS.forEach(k=>{
+    const l=document.createElement("div");l.className="lab";l.textContent=T[k].t.replace(/^[①-⑦] /,"").replace("（複数OK）","");
+    f.append(l,chips(k,filt[k],true,()=>{drawFilters();drawList()}))
+  });
+  const c=document.createElement("button");c.className="btn ghost";c.textContent="絞り込みをリセット";
+  c.onclick=()=>{FILTER_KEYS.forEach(k=>filt[k].clear());drawFilters();drawList()};
+  f.appendChild(c);
+}
+
+function drawList(){
+  const L=$("list");L.replaceChildren();
+  const v=items.filter(i=>{
+    const isRet = (i.returned === true || i.returned === "TRUE" || i.returned === "true");
+    if(isRet) return false;
+    return FILTER_KEYS.every(k=>{
+      const s=filt[k];if(!s.size)return true;
+      const x=i[k];return Array.isArray(x)?x.some(y=>s.has(y)):s.has(x);
+    });
+  });
+  v.sort((a,b)=>Number(b.no)-Number(a.no));
+  $("count").textContent=v.length+"件";$("empty").hidden=v.length>0;
+
+  v.forEach(i=>{
+    const c=document.createElement("div");c.className="card";
+    const im=document.createElement("img");im.src=i.photo;im.alt="落とし物の写真";im.loading="lazy";
+    const b=document.createElement("div");b.className="b";
+    const n=document.createElement("div");n.className="no";n.textContent="No."+String(i.no).padStart(4,"0");
+    const tg=document.createElement("div");
+    let colorArr = Array.isArray(i.color)? i.color : [];
+    if(typeof i.color === 'string') {
+      try { colorArr = JSON.parse(i.color); } catch(e) { colorArr = [i.color]; }
+    }
+    [i.type,...colorArr,i.pattern].filter(Boolean).forEach(x=>{
+      const s=document.createElement("span");s.className="tag";s.textContent=x;tg.appendChild(s);
+    });
+    const dt=document.createElement("div");dt.className="sub";dt.textContent=i.at?new Date(Number(i.at)).toLocaleDateString("ja-JP"):"";
+    
+    b.append(n,tg,dt);
+    if(i.memo){const mm=document.createElement("div");mm.className="memo";mm.textContent="📝 "+i.memo;b.appendChild(mm)}
+    c.append(im,b);L.appendChild(c);
+  });
+}
+
+function drawForm(){
+  const f=$("form");f.replaceChildren();
+  Object.keys(T).forEach(k=>{
+    const l=document.createElement("div");l.className="lab";l.textContent=T[k].t;
+    f.append(l,chips(k,sel[k],T[k].m,drawForm));
+  });
+}
+
+function shrinkAndBase64(file){
+  return new Promise((res,rej)=>{
+    const img=new Image();const u=URL.createObjectURL(file);
+    img.onload=()=>{
+      const s=Math.min(1,1000/Math.max(img.width,img.height));
+      const c=document.createElement("canvas");c.width=img.width*s;c.height=img.height*s;
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+      URL.revokeObjectURL(u);
+      res(c.toDataURL("image/jpeg", 0.75));
+    };img.onerror=rej;img.src=u;
+  });
+}
+
+$("file").onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  try{
+    base64Photo=await shrinkAndBase64(f);
+    const p=$("pv");p.src=base64Photo;p.style.display="block";
+  }catch(x){$("msg").textContent="写真を読み込めませんでした"}
+};
+
+$("add").onclick=()=>{
+  Object.values(sel).forEach(s=>s.clear());base64Photo=null;
+  $("file").value="";$("pv").style.display="none";$("msg").textContent="";$("memo").value="";
+  drawForm();$("dlg").showModal();
+};
+
+async function fetchItems(showNotification=false){
+  const btns=[$("sync-top"),$("sync-mid")];
+  btns.forEach(b=>b.classList.add("loading"));
+  try{
+    const res = await fetch(GAS_URL);
+    const data = await res.json();
+    if(data.status==="success" && Array.isArray(data.items)){
+      items = data.items;
+      drawList();
+      if(showNotification) showToast("✨ 最新の情報に更新しました");
+    }
+  }catch(e){
+    if(showNotification) showToast("❌ 更新に失敗しました");
+  }finally{
+    btns.forEach(b=>b.classList.remove("loading"));
+  }
+}
+
+$("sync-top").onclick=()=>fetchItems(true);
+$("sync-mid").onclick=()=>fetchItems(true);
+
+function fireworks(){
+  const c=$("fw"),x=c.getContext("2d"),d=window.devicePixelRatio||1;c.width=innerWidth*d;c.height=innerHeight*d;x.setTransform(d,0,0,d,0,0);let ps=[],end=Date.now()+2800,last=-1000;
+  function burst(){const cx=innerWidth*(.15+Math.random()*.7),cy=innerHeight*(.12+Math.random()*.4),h=Math.random()*360;for(let i=0;i<60;i++){const a=Math.PI*2*i/60,s=2+Math.random()*4;ps.push({x:cx,y:cy,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:1,h})}}
+  (function f(t){if(!$("thx").classList.contains("show"))return;x.clearRect(0,0,innerWidth,innerHeight);if(Date.now()<end&&t-last>350){burst();last=t}ps=ps.filter(p=>p.l>0);ps.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.06;p.vx*=.985;p.l-=.014;x.globalAlpha=Math.max(p.l,0);x.fillStyle="hsl("+p.h+",100%,60%)";x.beginPath();x.arc(p.x,p.y,2.5,0,7);x.fill()});requestAnimationFrame(f)})(0)
+}
+
+$("cancel").onclick=()=>$("dlg").close();
+$("save").onclick=async()=>{
+  const m=$("msg");
+  if(!base64Photo){m.textContent="写真を選んでください";return}
+  for(const k of Object.keys(T))if(!sel[k].size){m.textContent=T[k].t+" 用を選んでください";return}
+  $("save").disabled=true;m.textContent="登録中…（少し時間がかかります）";
+  
+  try{
+    const payload = {
+      photo: base64Photo,
+      returned: false,
+      at: Date.now(),
+      memo: $("memo").value.trim()
+    };
+    Object.keys(T).forEach(k=>payload[k]=T[k].m?[...sel[k]]:[...sel[k]][0]);
+
+    const res = await fetch(GAS_URL, {
+      method: "POST",
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+    if(data.status === "success"){
+      $("dlg").close();
+      const t=$("thx");t.classList.add("show");fireworks();
+      t.onclick=()=>t.classList.remove("show");setTimeout(()=>t.classList.remove("show"),3200);
+      fetchItems();
+    }else{
+      m.textContent="登録に失敗しました: "+(data.message||"");
+    }
+  }catch(e){
+    m.textContent="通信エラーが発生しました。もう一度試してください。";
+  }
+  $("save").disabled=false;
+};
+
+drawFilters();
+fetchItems();
+</script></body></html>
